@@ -26,11 +26,13 @@ class Game:
         office.setExits(None, None, None, lab, None, None, None)
         basement.setExits(None, None, None, None, theater, None, None)
 
-        espada = Item('espada', 'esto es una espada oxidada', 9)
+        espada = Item('espada', 'esto es una espada oxidada', 19)
         zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 0.87)
         silla = Item('silla', 'una silla para descansar', 2)
+        ropero = Item('ropero', 'una ropero antiguo', 15, picked_up=False)
         outside.setItem(espada)
         outside.setItem(zapatillas)
+        outside.setItem(ropero)
         theater.setItem(silla)
 
         self.currentRoom = outside
