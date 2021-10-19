@@ -26,7 +26,7 @@ class Room:
         return
 
     def setItem(self, item):
-        self.items[item.nombre] = item
+        self.items[item.name] = item
 
     def getDescription(self):
         return self.description
@@ -50,5 +50,5 @@ class Room:
         print("Items: ")
         items = ''
         for item in self.items.keys():
-            items += self.items[item].nombre + ' '
+            items += self.items[item].name + ' '
         print(items)

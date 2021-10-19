@@ -1,5 +1,6 @@
 from room import Room
 from item import Item
+from stack import Stack, inverse
 from parser import Parser
 
 
@@ -7,6 +8,7 @@ class Game:
     def __init__(self):
         self.createRooms()
         self.parser = Parser()
+        self.stack = Stack()
 
     def createRooms(self):
         outside = Room("outside the main entrance of the university")
@@ -24,9 +26,9 @@ class Game:
         office.setExits(None, None, None, lab, None, None, None)
         basement.setExits(None, None, None, None, theater, None, None)
 
-        espada = Item('espada', 'esto es una espada oxidada')
-        zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..')
-        silla = Item('silla', 'una silla para descansar')
+        espada = Item('espada', 'esto es una espada oxidada', 9)
+        zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 0.87)
+        silla = Item('silla', 'una silla para descansar', 2)
         outside.setItem(espada)
         outside.setItem(zapatillas)
         theater.setItem(silla)
@@ -69,6 +71,8 @@ class Game:
             wantToQuit = self.quit(command)
         elif(commandWord == "look"):
             self.look_items()
+        elif(commandWord == "back"):
+            self.goBack()
 
         return wantToQuit
 
@@ -79,7 +83,7 @@ class Game:
         print("Your command words are:")
         print("   go quit help")
 
-    def goRoom(self,command):
+    def goRoom(self, command):
         if(not command.hasSecondWord()):
             print("Go where?")
             return
@@ -87,15 +91,31 @@ class Game:
         direction = command.getSecondWord()
         nextRoom = self.currentRoom.get_exit(direction)
        
-        if(nextRoom == None):
+        if(nextRoom is None):
             print("There is no door!")
         else:
             self.currentRoom = nextRoom
             self.currentRoom.print_location_information()
+            self.stack.push(direction)
             print()
 
     def look_items(self):
         self.currentRoom.print_items_information()
+    
+    def goBack(self):
+        direction = self.stack.pop()
+        if(direction):
+            nextRoom = self.currentRoom.get_exit(direction)
+       
+            if(nextRoom is None):
+                print("There is no door! to go", direction)
+                self.stack.push(inverse[direction])
+            else:
+                self.currentRoom = nextRoom
+                self.currentRoom.print_location_information()
+                print()
+        else:
+            print('you are in the initial position, can not go back')
 
     def quit(self, command):
         if(command.hasSecondWord()):
