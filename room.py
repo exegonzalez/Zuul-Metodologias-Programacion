@@ -27,6 +27,12 @@ class Room:
 
     def setItem(self, item):
         self.items[item.name] = item
+    
+    def getItem(self, item):
+        if(item in self.items):
+            return self.items.pop(item)
+        else:
+            return None
 
     def getDescription(self):
         return self.description
@@ -38,7 +44,7 @@ class Room:
         for direction in self.exits.keys():
             exits += direction + ' '
         print(exits)
-        # self.print_items_information()
+        self.print_items_information()
     
     def get_exit(self, direction):
         if(direction in self.exits):

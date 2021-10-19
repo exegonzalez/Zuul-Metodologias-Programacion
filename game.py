@@ -1,5 +1,6 @@
 from room import Room
 from item import Item
+from player import Player
 from stack import Stack, inverse
 from parser import Parser
 
@@ -7,6 +8,7 @@ from parser import Parser
 class Game:
     def __init__(self):
         self.createRooms()
+        self.player = Player('jugador 1', 20)
         self.parser = Parser()
         self.stack = Stack()
 
@@ -73,8 +75,12 @@ class Game:
             wantToQuit = self.quit(command)
         elif(commandWord == "look"):
             self.look_items()
+        elif(commandWord == "bag"):
+            self.bag_items()
         elif(commandWord == "back"):
             self.goBack()
+        elif(commandWord == "take"):
+            self.takeItem(command)
 
         return wantToQuit
 
@@ -100,9 +106,25 @@ class Game:
             self.currentRoom.print_location_information()
             self.stack.push(direction)
             print()
+    
+    def takeItem(self, command):
+        if(not command.hasSecondWord()):
+            print("Take what?")
+            return
+
+        item_name = command.getSecondWord()
+        item = self.currentRoom.getItem(item_name)
+       
+        if(item is None):
+            print("There is not item in the room with this name!")
+        else:
+            self.player.setItem(item)
 
     def look_items(self):
         self.currentRoom.print_items_information()
+
+    def bag_items(self):
+        self.player.print_items_information()
     
     def goBack(self):
         direction = self.stack.pop()
