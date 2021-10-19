@@ -1,4 +1,5 @@
 from room import Room
+from item import Item
 from parser import Parser
 
 
@@ -21,6 +22,14 @@ class Game:
         pub.setExits(None, outside, None, None, None, None, None)
         lab.setExits(outside, office, None, None, None, None, None)
         office.setExits(None, None, None, lab, None, None, None)
+        basement.setExits(None, None, None, None, theater, None, None)
+
+        espada = Item('espada', 'esto es una espada oxidada')
+        zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..')
+        silla = Item('silla', 'una silla para descansar')
+        outside.setItem(espada)
+        outside.setItem(zapatillas)
+        theater.setItem(silla)
 
         self.currentRoom = outside
 
@@ -58,6 +67,8 @@ class Game:
             self.goRoom(command)
         elif(commandWord == "quit"):
             wantToQuit = self.quit(command)
+        elif(commandWord == "look"):
+            self.look_items()
 
         return wantToQuit
 
@@ -82,6 +93,9 @@ class Game:
             self.currentRoom = nextRoom
             self.currentRoom.print_location_information()
             print()
+
+    def look_items(self):
+        self.currentRoom.print_items_information()
 
     def quit(self, command):
         if(command.hasSecondWord()):
