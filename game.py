@@ -29,10 +29,12 @@ class Game:
         basement.setExits(None, None, None, None, theater, None, None)
 
         espada = Item('espada', 'esto es una espada oxidada', 19)
+        cookie = Item('cookie', 'esto es una gallleta magica', 0.1, comestible=True)
         zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 2.87)
         silla = Item('silla', 'una silla para descansar', 2)
         ropero = Item('ropero', 'una ropero antiguo', 15, picked_up=False)
         outside.setItem(espada)
+        outside.setItem(cookie)
         outside.setItem(zapatillas)
         outside.setItem(ropero)
         theater.setItem(silla)
@@ -81,6 +83,10 @@ class Game:
             self.goBack()
         elif(commandWord == "take"):
             self.takeItem(command)
+        elif(commandWord == "drop"):
+            self.dropItem(command)
+        elif(commandWord == "eat"):
+            self.eatItem(command)
 
         return wantToQuit
 
@@ -128,6 +134,35 @@ class Game:
                 print('ese item no puede ser levantado')
                 self.currentRoom.setItem(item)
 
+    def dropItem(self, command):
+        if(not command.hasSecondWord()):
+            print("Drop what?")
+            return
+
+        item_name = command.getSecondWord()
+        item = self.player.getItem(item_name)
+       
+        if(item is None):
+            print("There is not item in the player bag with this name!")
+        else:
+            self.currentRoom.setItem(item)
+
+    def eatItem(self, command):
+        if(not command.hasSecondWord()):
+            print("Eat what?")
+            return
+
+        item_name = command.getSecondWord()
+        item = self.player.getItem(item_name)
+       
+        if(item is None):
+            print("There is not item in the player bag with this name!")
+        else:
+            if(item.comestible):
+                print('comer', item.name)
+            else:
+                print('este item no es comestible')
+                self.player.setItem(item)
 
     def look_items(self):
         self.currentRoom.print_items_information()
