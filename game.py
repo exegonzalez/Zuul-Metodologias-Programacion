@@ -29,7 +29,7 @@ class Game:
         basement.setExits(None, None, None, None, theater, None, None)
 
         espada = Item('espada', 'esto es una espada oxidada', 19)
-        zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 0.87)
+        zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 2.87)
         silla = Item('silla', 'una silla para descansar', 2)
         ropero = Item('ropero', 'una ropero antiguo', 15, picked_up=False)
         outside.setItem(espada)
@@ -118,7 +118,16 @@ class Game:
         if(item is None):
             print("There is not item in the room with this name!")
         else:
-            self.player.setItem(item)
+            if(item.picked_up):
+                if(self.player.can_picked_up_new_item(item.weight)):
+                    self.player.setItem(item)
+                else:
+                    print('no puedes levantar tanto peso...')
+                    self.currentRoom.setItem(item)
+            else:
+                print('ese item no puede ser levantado')
+                self.currentRoom.setItem(item)
+
 
     def look_items(self):
         self.currentRoom.print_items_information()

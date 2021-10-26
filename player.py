@@ -16,3 +16,12 @@ class Player():
         for item in self.items.keys():
             items += self.items[item].name + ' '
         print(items)
+
+    def can_picked_up_new_item(self, weight):
+        peso_total = 0
+        for item in self.items.values():
+            peso_total += item.weight
+        peso_total += weight
+        return peso_total <= self.max_weight
+
+        
