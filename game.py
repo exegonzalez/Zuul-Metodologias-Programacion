@@ -1,5 +1,5 @@
 from room import Room
-from item import Item
+from item import Item, Comestible
 from player import Player
 from stack import Stack, inverse
 from parser import Parser
@@ -29,7 +29,7 @@ class Game:
         basement.setExits(None, None, None, None, theater, None, None)
 
         espada = Item('espada', 'esto es una espada oxidada', 19)
-        cookie = Item('cookie', 'esto es una gallleta magica', 0.1, comestible=True)
+        cookie = Comestible('cookie', 'esto es una gallleta magica', 0.1, 5, 'fuerza')
         zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 2.87)
         silla = Item('silla', 'una silla para descansar', 2)
         ropero = Item('ropero', 'una ropero antiguo', 15, picked_up=False)
@@ -158,8 +158,9 @@ class Game:
         if(item is None):
             print("There is not item in the player bag with this name!")
         else:
-            if(item.comestible):
-                print('comer', item.name)
+            if(isinstance(item, Comestible)):
+                item.comer()
+                
             else:
                 print('este item no es comestible')
                 self.player.setItem(item)
