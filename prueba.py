@@ -28,9 +28,11 @@ class Tres(Uno):
     def __init__(self, nombre, apellido, mail):
         super().__init__(nombre, apellido)
         self.mail = mail
+        self.otro = 123
 
     def mostrar(self):
-        print(self.nombre, self.apellido, self.mail)
+        print(self.nombre)
+        print(self.apellido)
 
     def caminiar(self, mail):
         print('enviar mail a', mail)
@@ -45,8 +47,9 @@ r2 = Tres('aaaa', 'bbb', 'ccc')
 # r.enviar_correo('asdas@asdasd.com')
 
 
+print(r2.__dict__)
 
-lista = [p, r, r2]
+# lista = [p, r, r2]
 
-for elemento in lista:
-    elemento.mostrar()
+# for elemento in lista:
+#     elemento.mostrar()

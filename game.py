@@ -29,12 +29,16 @@ class Game:
         basement.setExits(None, None, None, None, theater, None, None)
 
         espada = Item('espada', 'esto es una espada oxidada', 19)
-        cookie = Comestible('cookie', 'esto es una gallleta magica', 0.1, 5, 'fuerza')
+        cookie = Comestible('cookie', 'esto es una gallleta magica', 0.1, 5, 'max_weight')
+        rice = Comestible('rice', 'esto es un poco de arroz', 0.25, 20, 'agility')
+        apple = Comestible('apple', 'esto es una manzana roja', 0.15, 7, 'strength')
         zapatillas = Item('zapatilla', 'esto es un par de zapatillas viejas..', 2.87)
         silla = Item('silla', 'una silla para descansar', 2)
         ropero = Item('ropero', 'una ropero antiguo', 15, picked_up=False)
         outside.setItem(espada)
         outside.setItem(cookie)
+        outside.setItem(rice)
+        outside.setItem(apple)
         outside.setItem(zapatillas)
         outside.setItem(ropero)
         theater.setItem(silla)
@@ -159,8 +163,9 @@ class Game:
             print("There is not item in the player bag with this name!")
         else:
             if(isinstance(item, Comestible)):
-                item.comer()
-                
+                response = item.comer(self.player)
+                if(not response):
+                    self.player.setItem(item)
             else:
                 print('este item no es comestible')
                 self.player.setItem(item)

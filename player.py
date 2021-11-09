@@ -6,8 +6,8 @@ class Player():
         self.name = name
         self.max_weight = max_weight
         self.items = {}
-        self.ataque = 1
-        self.defensa = 1
+        self.strength = 1
+        self.defese = 1
         self.equipment = {'casco': None, 'arma': None, 'armadura': None}
     
     def setItem(self, item):
